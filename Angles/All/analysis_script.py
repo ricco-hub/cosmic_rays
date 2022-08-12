@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# In[53]:
+
+
+#!/usr/bin/env python
+# coding: utf-8
+
 # In[ ]:
 
 
@@ -71,14 +77,17 @@ def scatter_flux(dfile):
 
 # Outlier function
 def remove_outlier(flux, err):
-    q1, q3 = np.percentile(flux, [25,75])
-    iqr = q3 - q1
-    
+    sort_flux = sorted(flux)
+    q1, q3 = np.percentile(sort_flux, [25,75])
+    iqr = q3 - q1    
     lower_bound = q1 - (1.5 * iqr) 
     upper_bound = q3 + (1.5 * iqr)
     
-    for count, f in enumerate(flux):
+    copy_flux = flux    
+    for count, f in enumerate(list(copy_flux)):
         if f < lower_bound or f > upper_bound:
             flux.remove(f)
             err.pop(count)
+        else:
+            continue
 
